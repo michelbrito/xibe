@@ -2,6 +2,7 @@
 # and open the template in the editor.
 
 module Xibe
+  
   class Color
     def self.map_rgb(r,g,b)
       SDL.get_video_surface.map_rgb(r,g,b)
@@ -87,4 +88,5 @@ module Xibe
       map_rgb(255,255,0)
     end    
   end
+  
 end

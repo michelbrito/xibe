@@ -20,6 +20,7 @@ module Xibe
 
       mode = @fullscreen == true ? SDL::FULLSCREEN|SDL::HWSURFACE : SDL::HWSURFACE
       @screen = SDL::setVideoMode @width, @height, 16, mode
+      Mouse.hide
     end
 
     #Sets the window title
@@ -37,14 +38,11 @@ module Xibe
       timer = Timer.new
       loop do
         timer.start
-        SDL::Key.scan
-        while event = SDL::Event2.poll
-          case event
-          when Event.quit
-            quit
-          end
+        Key.scan
+        while event = Event.get
+          input(event)
+          exit if event.type == QUIT
         end
-        input
         update
         @screen.fill_rect(0,0,@width,@height,@fill)
         draw
@@ -53,7 +51,7 @@ module Xibe
       end
     end
 
-    def input
+    def input(e)
     end
 
     def update

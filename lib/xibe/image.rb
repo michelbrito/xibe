@@ -15,9 +15,13 @@ module Xibe
       @src_y = 0
     end
 
+    def self.load(filename)
+      SDL::Surface.load(filename)
+    end
+
     #Create a image
     def self.create(filename, transparent=false)
-      img = SDL::Surface.load(filename)
+      img = load(filename)
       color_key = img.get_pixel(0,0)
       img.set_color_key(SDL::SRCCOLORKEY ,color_key) if transparent == true
       img.display_format
