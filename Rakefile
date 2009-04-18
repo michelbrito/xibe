@@ -12,7 +12,7 @@ require 'rake/testtask'
 
 spec = Gem::Specification.new do |s|
   s.name = 'xibe'
-  s.version = '0.7'
+  s.version = '0.7.0'
   s.has_rdoc = true
   s.extra_rdoc_files = ['README', 'LICENSE']
   s.summary = 'Xibé is a game programming library for Ruby'
