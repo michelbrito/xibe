@@ -1,5 +1,5 @@
 module Xibe
-  VERSION = "0.7"
+  VERSION = "0.7.0"
 
   #Types
   ACTIVE = Event::Active
