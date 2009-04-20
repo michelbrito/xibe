@@ -4,16 +4,16 @@
 module Xibe
   
   class Application
-    attr_reader :width, :height, :fps, :scene, :objects
-    attr_accessor :fill
+    attr_reader :width, :height, :fps, :screen
+    attr_accessor :scene
 
     #width, height: window size; fullscreen: fullscreen mode; fps: frames per seconds
     def initialize(width, height, fullscreen = false, fps=30)
+      $application = self
       @width = width
       @height = height
       @fullscreen = fullscreen
       @fps = fps
-      @fill = 0x00
       @objects = []
 
       SDL.init(SDL::INIT_EVERYTHING)
@@ -21,6 +21,7 @@ module Xibe
       mode = @fullscreen == true ? SDL::FULLSCREEN|SDL::HWSURFACE : SDL::HWSURFACE
       @screen = SDL::setVideoMode @width, @height, 16, mode
       Mouse.hide
+      @scene = Scene.new(@width,@height)
     end
 
     #Sets the window title
@@ -44,7 +45,6 @@ module Xibe
           exit if event.type == QUIT
         end
         update
-        @screen.fill_rect(0,0,@width,@height,@fill)
         draw
         @screen.flip
         SDL.delay( (1000 / @fps) - timer.ticks ) if timer.ticks < 1000 / @fps
@@ -52,37 +52,35 @@ module Xibe
     end
 
     def input(e)
+      @scene.input(e)
     end
 
     def update
+      @scene.update
     end
 
 
     #Add the object to scene
     def add(*objs)
-      objs.each do |obj|
-        @objects << obj
-      end
-      @objects = @objects.uniq
+      @scene.add(*objs)
     end
 
     #Delete the object from scene
     def delete(object)
-      @objects.delete(object)
+      @scene.delete(object)
     end
 
-    #Quit application
-    def quit
-      exit
+    def fill=(color)
+      @scene.fill = color
     end
 
-    private
-    #Draw scene
+    def fill
+      @scene.fill
+    end
+
     def draw
-      objs = @objects.sort_by { |obj| [obj.z] }
-      objs.each do |obj|
-        obj.draw unless obj.visible == false
-      end
+      @screen.fill_rect(0,0,@width,@height,@scene.fill)
+      @scene.draw
     end
   end
 end

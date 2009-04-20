@@ -5,7 +5,7 @@ module Xibe
 
   class Text < Layer
     attr_reader :filename, :size
-    attr_accessor :shadow, :text, :color, :bold, :valign, :halign
+    attr_accessor :shadow, :text, :color, :bold
     def initialize(filename, size=10)
       super()
       @filename = filename
@@ -15,6 +15,20 @@ module Xibe
       SDL::TTF.init unless SDL::TTF.init?
       @font = SDL::TTF.open(@filename, @size)
     end
+
+    def text_width
+      text_size[0]
+    end
+
+    def text_height
+      text_size[1]
+    end
+
+    def text_size
+      @font.text_size(@text)
+    end
+
+    
 
     def style(args = {})
       style = SDL::TTF::STYLE_NORMAL
@@ -26,16 +40,7 @@ module Xibe
 
     def draw
       r,g,b = Color.get_rgb(@color)
-      w, h = @font.text_size(@text)
-      @width = w if @width == 0
-      @height = h if @height == 0
-      x = @x
-      y = @y
-      x = @x + (@width - w) if @halign == :right
-      x = @x + (@width - w)/2 if @halign == :center
-      y = @y + (@height - h) if @valign == :bottom
-      y =  @y + (@height - h)/2 if @valign == :center
-      @font.draw_solid_utf8(SDL.get_video_surface,@text,x,y,r,g,b)
+      @font.draw_solid_utf8(SDL.get_video_surface,@text,@x,@y,r,g,b)
     end
   end
 
