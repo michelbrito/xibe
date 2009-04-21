@@ -80,7 +80,28 @@ module Xibe
     end
 
     def collide_with?(sprite)
-     @map[@frames[@current_frame]].collision_check(@x,@y,  sprite.cmap,sprite.x, sprite.y)
+      cmap.collision_check(@x,@y, sprite.cmap,sprite.x, sprite.y)
+    end
+
+    def collide_box?(sprite)
+      cmap.bounding_box_check(@x,@y, sprite.cmap,sprite.x, sprite.y)
+    end
+
+    #TODO criar um esquema de grupo onde traga apenas os que pertecerem ao grupo tilemap
+    def collide_with_tilemap?(pp=false)
+      $application.scene.objects.each do |obj|
+        if obj.is_a? Tilemap
+          obj.cmap.each do |c|
+            if pp
+              return true if cmap.collision_check(@x,@y, c[:map], c[:x] + obj.x, c[:y] + obj.y)
+            else
+              return true if cmap.bounding_box_check(@x,@y, c[:map], c[:x] + obj.x, c[:y] + obj.y)
+            end
+            
+          end
+        end
+      end
+      return false
     end
 
     def cmap

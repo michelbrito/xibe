@@ -5,7 +5,7 @@ module Xibe
 
   class Scene
     attr_accessor :fill, :camera
-    attr_reader :width, :height
+    attr_reader :width, :height, :objects
     def initialize(width, height,fill = 0x00)
       @width = width
       @height = height
