@@ -1,3 +1,8 @@
 == Xibé
 
 Xibé is a game programming library for Ruby
+
+Install
+1. Install Ruby/SDL (http://rubyforge.org/projects/rubysdl)
+2. Run install.rb file to install Xibé
+
