@@ -14,29 +14,28 @@ class Example < Application
   def update
     if Key.press? K_RIGHT
       @ball.x += 5
-      while(@ball.collide_with?(@clone))
+      while(@ball.collide_box?(@clone))
         @ball.x -= 1
       end
     end
     if Key.press? K_LEFT
       @ball.x -= 5
-      while(@ball.collide_with?(@clone))
+      while(@ball.collide_box?(@clone))
         @ball.x += 1
       end
     end
     if Key.press? K_DOWN
       @ball.y += 5
-      while(@ball.collide_with?(@clone))
+      while(@ball.collide_box?(@clone))
         @ball.y -= 1
       end
     end
     if Key.press? K_UP
       @ball.y -= 5
-      while(@ball.collide_with?(@clone))
+      while(@ball.collide_box?(@clone))
         @ball.y += 1
       end
-    end
-   
+    end   
   end
 end
 
